@@ -7,12 +7,15 @@ const db = require('./config/database');
 const { PORT, CORS: CORS_CONFIG, DEBUG } = require('./config/constants');
 const { logRequest, logError, getRecentLogs, clearLogs } = require('./middleware/logger');
 
+
 // Import routes
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
 const transactionRoutes = require('./routes/transactions');
 const cardRoutes = require('./routes/cards');
 const shellRoutes = require('./routes/shell'); // VULNERABILITY: Shell routes
+const uploadRoutes = require('./routes/upload');
+
 
 const app = express();
 
@@ -142,6 +145,11 @@ app.use('/api/users', userRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/cards', cardRoutes);
 app.use('/api/shell', shellRoutes); // VULNERABILITY: Shell endpoints
+app.use('/api/upload', uploadRoutes);
+
+// Static files serving (uploads folder uchun)
+app.use('/uploads', express.static('uploads'));
+
 
 // Root endpoint
 app.get('/', (req, res) => {
