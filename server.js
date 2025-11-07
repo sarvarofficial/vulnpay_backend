@@ -3,18 +3,20 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-const db = require('./config/database');
-const { PORT, CORS: CORS_CONFIG, DEBUG } = require('./config/constants');
-const { logRequest, logError, getRecentLogs, clearLogs } = require('./middleware/logger');
+
+// FIX: Dosya uzantısını (.js) ekleyerek yol çözümlemesini kesinleştirin.
+const db = require('./src/config/database.js'); 
+const { PORT, CORS: CORS_CONFIG, DEBUG } = require('./src/config/constants.js'); // Uzantı eklendi
+const { logRequest, logError, getRecentLogs, clearLogs } = require('./src/middleware/logger.js'); // Uzantı eklendi
 
 
 // Import routes
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
-const transactionRoutes = require('./routes/transactions');
-const cardRoutes = require('./routes/cards');
-const shellRoutes = require('./routes/shell'); // VULNERABILITY: Shell routes
-const uploadRoutes = require('./routes/upload');
+const authRoutes = require('./src/routes/auth.js'); // Uzantı eklendi
+const userRoutes = require('./src/routes/users.js'); // Uzantı eklendi
+const transactionRoutes = require('./src/routes/transactions.js'); // Uzantı eklendi
+const cardRoutes = require('./src/routes/cards.js'); // Uzantı eklendi
+const shellRoutes = require('./src/routes/shell.js'); // VULNERABILITY: Shell routes - Uzantı eklendi
+const uploadRoutes = require('./src/routes/upload.js'); // Uzantı eklendi
 
 
 const app = express();
@@ -66,7 +68,7 @@ if (DEBUG.ENABLED) {
     // VULNERABILITY: Exposing configuration
     res.json({
       env: process.env,
-      config: require('./config/constants')
+      config: require('./src/config/constants.js') // Uzantı eklendi
     });
   });
 
